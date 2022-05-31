@@ -1,0 +1,24 @@
+
+
+version: "3.9"
+
+services:
+  node:
+    image: patrick204nqh/payment-flow-v2:latest
+    build: .
+    container_name: node
+    restart: always
+    env_file: .env
+    command: bash -c "yarn run start:${NODE_ENV}"
+    ports:
+      - 3000:3000
+    volumes:
+      - ./:/var/www/app
+
+
+  mailhog:
+    image: mailhog/mailhog
+    container_name: mailhog
+    ports:
+      - "8025:8025"
+      - "1025:1025"
