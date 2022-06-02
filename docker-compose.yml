@@ -3,6 +3,18 @@
 version: "3.9"
 
 services:
+  mongodb:
+    image: mongo:5.0
+    container_name: mongodb
+    ports:
+      - 27017:27017
+    volumes:
+      - mongodb_data:/data/db
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=patrick
+      - MONGO_INITDB_ROOT_PASSWORD=password
+
+
   node:
     image: patrick204nqh/payment-flow-v2:latest
     build: .
@@ -14,6 +26,8 @@ services:
       - 3000:3000
     volumes:
       - ./:/var/www/app
+    depends_on:
+      - mongodb
 
 
   mailhog:
@@ -22,3 +36,7 @@ services:
     ports:
       - "8025:8025"
       - "1025:1025"
+
+
+volumes:
+  mongodb_data: {}
